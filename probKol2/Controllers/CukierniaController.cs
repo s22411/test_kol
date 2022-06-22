@@ -26,30 +26,16 @@ namespace probKol2.Controllers
         [Route("orders")]
         public async Task<IActionResult> GetZamowienia()
         {
-            IEnumerable<GetZamowienieDTO> result = new List<GetZamowienieDTO>();
-
-            foreach (var zamowienie in await _context.Zamowienia.ToListAsync())
+            var zamowienia = await _context.Zamowienia.Select(z => new GetZamowienieDTO
             {
-                // System.Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                // System.Console.WriteLine(zamowienie.IdZamowienia);
-
-                var zamowienieDTO = new GetZamowienieDTO 
-                {
-                    IdZamowienia = zamowienie.IdZamowienia,
-                    DataPrzyjecia = zamowienie.DataPrzyjecia,
-                    DataRealizacji = zamowienie.DataRealizacji,
-                    Uwagi = zamowienie.Uwagi,
-                    Wyroby = zamowienie.Zamowienie_WyrobCukierniczy.Join(_context.WyrobyCukiernicze, zwc => zwc.IdWyrobuCukierniczego, wc => wc.IdWyrobuCukierniczego, (zwc, wc) => wc).ToList()
-                };
-
-                result.Append(zamowienieDTO);
-            }
-
-            return Ok(result);
-
-            // throw new NotImplementedException();
-            // var zamowienia = await _context.Zamowienia.Where(z => z.IdKlienta == idKlienta).ToListAsync();
-            // return Ok(zamowienia);
+                IdZamowienia = z.IdZamowienia,
+                DataPrzyjecia = z.DataPrzyjecia,
+                DataRealizacji = z.DataRealizacji,
+                Uwagi = z.Uwagi,
+                Wyroby = z.Zamowienie_WyrobCukierniczy.Join(_context.WyrobyCukiernicze, zw => zw.IdWyrobuCukierniczego, wc => wc.IdWyrobuCukierniczego, (zw, wc) => new GetWyrobDTO { Nazwa = wc.Nazwa, CenaZaSzt = wc.CenaZaSzt, Typ = wc.Typ })
+            }).ToListAsync();
+            
+            return Ok(zamowienia);
         }
 
 

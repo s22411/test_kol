@@ -12,6 +12,6 @@ namespace probKol2.Models.DTOs
         public DateTime DataPrzyjecia { get; set; }
         public DateTime DataRealizacji { get; set; }
         public string Uwagi { get; set; }
-        public IEnumerable<WyrobCukierniczy> Wyroby { get; set; }
+        public IEnumerable<GetWyrobDTO> Wyroby { get; set; }
     }
 }
