@@ -7,5 +7,6 @@ namespace probKol2.Services
     public interface IDbService
     {
         public Task<List<ZamowienieDTO>> GetZamowienia(string nazwisko);
+        public Task<List<ZamowienieDTO>> AddNewOrder(NoweZamowienieDTO noweZamowienie, int idKlienta);
     }
 }

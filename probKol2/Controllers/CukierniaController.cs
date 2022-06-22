@@ -35,6 +35,12 @@ namespace probKol2.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("clients/{idKlienta}/orders")]
+        public async Task<IActionResult> AddNewOrder([FromBody] NoweZamowienieDTO noweZamowienie, int idKlienta)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }
