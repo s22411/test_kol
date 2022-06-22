@@ -50,21 +50,21 @@ namespace probKol.Models
 
             builder.Entity<WyrobCukierniczy>(entity =>
             {
-                entity.HasKey(e => e.IdWyorbuCukierniczego);
+                entity.HasKey(e => e.IdWyrobuCukierniczego);
                 entity.Property(e => e.Nazwa).HasMaxLength(200).IsRequired();
                 entity.Property(e => e.CenaZaSzt).IsRequired();
                 entity.Property(e => e.Typ).HasMaxLength(40).IsRequired();
 
                 entity.HasData(
-                    new WyrobCukierniczy { IdWyorbuCukierniczego = 1, Nazwa = "Ciastko", CenaZaSzt = 5.99f, Typ = "Ciasto" },
-                    new WyrobCukierniczy { IdWyorbuCukierniczego = 2, Nazwa = "Tort", CenaZaSzt = 7.99f, Typ = "Tort" },
-                    new WyrobCukierniczy { IdWyorbuCukierniczego = 3, Nazwa = "Kremowka", CenaZaSzt = 5.99f, Typ = "Kremowka" }
+                    new WyrobCukierniczy { IdWyrobuCukierniczego = 1, Nazwa = "Ciastko", CenaZaSzt = 5.99f, Typ = "Ciasto" },
+                    new WyrobCukierniczy { IdWyrobuCukierniczego = 2, Nazwa = "Tort", CenaZaSzt = 7.99f, Typ = "Tort" },
+                    new WyrobCukierniczy { IdWyrobuCukierniczego = 3, Nazwa = "Kremowka", CenaZaSzt = 5.99f, Typ = "Kremowka" }
                 );
             });
 
             builder.Entity<Zamowienie_WyrobCukierniczy>(entity =>
             {
-                entity.HasKey(e => new { e.IdZamowienia, e.IdWyorbuCukierniczego });
+                entity.HasKey(e => new { e.IdZamowienia, e.IdWyrobuCukierniczego });
                 entity.Property(e => e.Ilosc).IsRequired();
                 entity.Property(e => e.Uwagi).HasMaxLength(300);
 
@@ -73,14 +73,14 @@ namespace probKol.Models
                     .HasForeignKey(e => e.IdZamowienia);
                 entity.HasOne(e => e.WyrobCukierniczy)
                     .WithMany(e => e.Zamowienie_WyrobCukierniczy)
-                    .HasForeignKey(e => e.IdWyorbuCukierniczego);
+                    .HasForeignKey(e => e.IdWyrobuCukierniczego);
 
 
                 entity.HasData(
-                    new Zamowienie_WyrobCukierniczy { IdZamowienia = 1, IdWyorbuCukierniczego = 1, Ilosc = 1, Uwagi = "Ciastko na zimno" },
-                    new Zamowienie_WyrobCukierniczy { IdZamowienia = 1, IdWyorbuCukierniczego = 2, Ilosc = 2 },
-                    new Zamowienie_WyrobCukierniczy { IdZamowienia = 1, IdWyorbuCukierniczego = 3, Ilosc = 1, Uwagi = "Kremowka na zimno" },
-                    new Zamowienie_WyrobCukierniczy { IdZamowienia = 2, IdWyorbuCukierniczego = 1, Ilosc = 1, Uwagi = "Ciastko na ciepło" }
+                    new Zamowienie_WyrobCukierniczy { IdZamowienia = 1, IdWyrobuCukierniczego = 1, Ilosc = 1, Uwagi = "Ciastko na zimno" },
+                    new Zamowienie_WyrobCukierniczy { IdZamowienia = 1, IdWyrobuCukierniczego = 2, Ilosc = 2 },
+                    new Zamowienie_WyrobCukierniczy { IdZamowienia = 1, IdWyrobuCukierniczego = 3, Ilosc = 1, Uwagi = "Kremowka na zimno" },
+                    new Zamowienie_WyrobCukierniczy { IdZamowienia = 2, IdWyrobuCukierniczego = 1, Ilosc = 1, Uwagi = "Ciastko na ciepło" }
                 );
             });
 
