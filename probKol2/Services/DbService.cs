@@ -17,6 +17,29 @@ namespace probKol2.Services
             _context = context;
         }
 
+        public async Task<List<ZamowienieDTO>> AddNewOrder(NoweZamowienieDTO noweZamowienie, int idKlienta)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+
+            foreach (var wyrob in noweZamowienie.Wyroby)
+            {
+                if (!await _context.WyrobyCukiernicze.AnyAsync(w => w.Nazwa == wyrob.Wyrob))
+                {
+                    throw new Exception($"Nie ma w bazie wyrobu: {wyrob.Wyrob}");
+                }
+            }
+
+            await _context.Zamowienia.AddAsync(new Zamowienie
+            {
+                DataPrzyjecia = DateTime.Parse(noweZamowienie.DataPrzyjecia),
+                Uwagi = noweZamowienie.Uwagi,
+                IdKlient = idKlienta,
+                
+            });
+
+            throw new NotImplementedException();
+        }
+
         public async Task<List<ZamowienieDTO>> GetZamowienia(string nazwisko)
         {
             if (!await _context.Klienci.AnyAsync(k => k.Nazwisko == nazwisko))
