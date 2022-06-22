@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace probKol.Models
 {
     public class WyrobCukierniczy

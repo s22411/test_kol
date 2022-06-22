@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace probKol.Models
 {
     public class Zamowienie
