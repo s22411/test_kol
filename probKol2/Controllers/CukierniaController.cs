@@ -7,35 +7,32 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using probKol.Models;
 using probKol2.Models.DTOs;
+using probKol2.Services;
 
 namespace probKol2.Controllers
 {
     [Route("api")]
     public class CukierniaController : ControllerBase
     {
-        private readonly IConfiguration _config;
-        private readonly MainDbContext _context;
+        private readonly IDbService _dbService;
 
-        public CukierniaController(IConfiguration config, MainDbContext context)
+        public CukierniaController(IDbService dbService)
         {
-            _config = config;
-            _context = context;
+            _dbService = dbService;
         }
 
         [HttpGet]
         [Route("orders")]
-        public async Task<IActionResult> GetZamowienia()
+        public async Task<IActionResult> GetZamowienia(string nazwisko)
         {
-            var zamowienia = await _context.Zamowienia.Select(z => new GetZamowienieDTO
+            try
             {
-                IdZamowienia = z.IdZamowienia,
-                DataPrzyjecia = z.DataPrzyjecia,
-                DataRealizacji = z.DataRealizacji,
-                Uwagi = z.Uwagi,
-                Wyroby = z.Zamowienie_WyrobCukierniczy.Join(_context.WyrobyCukiernicze, zw => zw.IdWyrobuCukierniczego, wc => wc.IdWyrobuCukierniczego, (zw, wc) => new GetWyrobDTO { Nazwa = wc.Nazwa, CenaZaSzt = wc.CenaZaSzt, Typ = wc.Typ })
-            }).ToListAsync();
-            
-            return Ok(zamowienia);
+                return Ok(await _dbService.GetZamowienia(nazwisko));
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
 
